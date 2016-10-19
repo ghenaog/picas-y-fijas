@@ -1,6 +1,5 @@
 require 'sinatra'
 require 'sinatra/cookies'
-require 'active_support/all'
 
 get '/' do
   erb :index
@@ -10,7 +9,7 @@ get '/validar' do
   @numero = params[:numero]
   # Generating 4 values array with no repeating digits
   vruby = (0..9).to_a.shuffle.take(4).map { |i| i.to_s }
-  
+
   #Comparing strings
   fija = 0
   pica = 0
