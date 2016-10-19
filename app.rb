@@ -8,7 +8,12 @@ end
 get '/validar' do
   @numero = params[:numero]
   # Generating 4 values array with no repeating digits
-  vruby = (0..9).to_a.shuffle.take(4).map { |i| i.to_s }
+  if cookies[:secret_number]
+    vruby = cookies[:secret_number]
+  else
+    vruby = (0..9).to_a.shuffle.take(4).map { |i| i.to_s }.join('')
+    cookies[:secret_number] = vruby
+  end
 
   #Comparing strings
   fija = 0
@@ -31,9 +36,11 @@ get '/validar' do
   end
   @picas = pica
   @fijas = fija
-  @vruby = vruby.join("")
+  @vruby = vruby
 
   if fija == 4
+    @secret_number = cookies[:secret_number]
+    cookies.delete(:secret_number)
     erb :ganaste
   else
     erb :validar
